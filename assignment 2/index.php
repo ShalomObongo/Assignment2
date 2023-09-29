@@ -113,7 +113,7 @@ if (isset($_POST['login'])) {
                                                     <!-- Empty action to submit to the same page -->
                                                     <div class="form-group">
                                                         <input type="email" name="logemail" class="form-style"
-                                                            placeholder="Your Email or Username" id="logemail"
+                                                            placeholder="Your Email" id="logemail"
                                                             autocomplete="off" />
                                                         <i class="input-icon uil uil-at"></i>
                                                     </div>
