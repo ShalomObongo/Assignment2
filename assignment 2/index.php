@@ -1,18 +1,16 @@
 <?php
-require_once('DBconnect.php'); // Include the database connection file
+require_once('DBconnect.php');
 
-// Initialize variables for storing user input and error messages
 $logname = $logemail = $logpass = '';
 $errors = array();
 
-// Check if the signup form is submitted
+
 if (isset($_POST['signup'])) {
-    // Retrieve user input from the signup form
+    
     $logname = $_POST['logname'];
     $logemail = $_POST['logemail'];
     $logpass = $_POST['logpass'];
 
-    // Validate user input (you can add more validation as needed)
     if (empty($logname)) {
         $errors[] = 'Full Name is required.';
     }
@@ -23,32 +21,29 @@ if (isset($_POST['signup'])) {
         $errors[] = 'Password is required.';
     }
 
-    // If there are no validation errors, insert user data into the database
     if (empty($errors)) {
         try {
-            // Hash the password for security (you should use password_hash() in production)
-            $hashed_password = md5($logpass); // Note: MD5 is not a secure password hashing method, use password_hash().
+            
+            $hashed_password = md5($logpass);
 
-            // Create a prepared statement to insert user data
             $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
             $stmt->execute([$logname, $logemail, $hashed_password]);
 
-            // Redirect to the home page or display a success message
-            header("Location: home.php"); // Replace 'home.php' with your actual home page
+            header("Location: home.php");
 
         } catch (PDOException $e) {
-            $errors[] = 'Error: ' . $e->getMessage(); // Handle any database errors
+            $errors[] = 'Error: ' . $e->getMessage();
         }
     }
 }
 
-// Check if the login form is submitted
+
 if (isset($_POST['login'])) {
     // Retrieve user input from the login form
     $logemail = $_POST['logemail'];
     $logpass = $_POST['logpass'];
 
-    // Validate user input (you can add more validation as needed)
+    // Validate user input
     if (empty($logemail)) {
         $errors[] = 'Email is required for login.';
     }
@@ -56,27 +51,27 @@ if (isset($_POST['login'])) {
         $errors[] = 'Password is required for login.';
     }
 
-    // If there are no validation errors, check user credentials
+    
     if (empty($errors)) {
         try {
-            // Hash the password for comparison (you should use password_verify() in production)
-            $hashed_password = md5($logpass); // Note: MD5 is not a secure password hashing method, use password_verify().
+            // Hash the password
+            $hashed_password = md5($logpass);
 
-            // Create a prepared statement to fetch user data by email and password
+            
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
             $stmt->execute([$logemail, $hashed_password]);
             $user = $stmt->fetch();
 
             if ($user) {
-                // User credentials are correct, redirect to the home page
-                header("Location: home.php"); // Replace 'home.php' with your actual home page
+                
+                header("Location: home.php");
             } else {
-                // Display an error message if credentials are incorrect
+                
                 $errors[] = 'Incorrect email or password. Please try again.';
             }
 
         } catch (PDOException $e) {
-            $errors[] = 'Error: ' . $e->getMessage(); // Handle any database errors
+            $errors[] = 'Error: ' . $e->getMessage();
         }
     }
 }
@@ -110,7 +105,7 @@ if (isset($_POST['login'])) {
                                             <div class="section text-center">
                                                 <h4 class="mb-4 pb-3">Log In</h4>
                                                 <form method="post" action="">
-                                                    <!-- Empty action to submit to the same page -->
+                                                    
                                                     <div class="form-group">
                                                         <input type="email" name="logemail" class="form-style"
                                                             placeholder="Your Email" id="logemail"
@@ -135,7 +130,7 @@ if (isset($_POST['login'])) {
                                             <div class="section text-center">
                                                 <h4 class="mb-4 pb-3">Sign Up</h4>
                                                 <form method="post" action="">
-                                                    <!-- Empty action to submit to the same page -->
+                                                    
                                                     <div class="form-group">
                                                         <input type="text" name="logname" class="form-style"
                                                             placeholder="Your Full Name" id="logname"
