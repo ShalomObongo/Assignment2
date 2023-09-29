@@ -6,7 +6,7 @@ $errors = array();
 
 
 if (isset($_POST['signup'])) {
-    
+
     $logname = $_POST['logname'];
     $logemail = $_POST['logemail'];
     $logpass = $_POST['logpass'];
@@ -23,7 +23,7 @@ if (isset($_POST['signup'])) {
 
     if (empty($errors)) {
         try {
-            
+
             $hashed_password = md5($logpass);
 
             $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
@@ -51,22 +51,22 @@ if (isset($_POST['login'])) {
         $errors[] = 'Password is required for login.';
     }
 
-    
+
     if (empty($errors)) {
         try {
             // Hash the password
             $hashed_password = md5($logpass);
 
-            
+
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
             $stmt->execute([$logemail, $hashed_password]);
             $user = $stmt->fetch();
 
             if ($user) {
-                
+
                 header("Location: home.php");
             } else {
-                
+
                 $errors[] = 'Incorrect email or password. Please try again.';
             }
 
@@ -105,11 +105,10 @@ if (isset($_POST['login'])) {
                                             <div class="section text-center">
                                                 <h4 class="mb-4 pb-3">Log In</h4>
                                                 <form method="post" action="">
-                                                    
+
                                                     <div class="form-group">
                                                         <input type="email" name="logemail" class="form-style"
-                                                            placeholder="Your Email" id="logemail"
-                                                            autocomplete="off" />
+                                                            placeholder="Your Email" id="logemail" autocomplete="off" />
                                                         <i class="input-icon uil uil-at"></i>
                                                     </div>
                                                     <div class="form-group mt-2">
@@ -130,7 +129,7 @@ if (isset($_POST['login'])) {
                                             <div class="section text-center">
                                                 <h4 class="mb-4 pb-3">Sign Up</h4>
                                                 <form method="post" action="">
-                                                    
+
                                                     <div class="form-group">
                                                         <input type="text" name="logname" class="form-style"
                                                             placeholder="Your Full Name" id="logname"
